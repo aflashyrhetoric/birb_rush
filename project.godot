@@ -14,6 +14,10 @@ config/name="birb rush"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Events="*res://Events.gd"
+
 [input]
 
 hit_x={

@@ -1,6 +1,7 @@
 extends RigidBody2D
 
 signal spawn_shape
+signal missed_shape
 
 var shape_to_show = ""
 
@@ -15,8 +16,13 @@ func _ready():
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	var p = position
+	print(position)
+	var out_of_position = p.x <= 0 or p.x > 1020 or p.y >= 580
+	if out_of_position:
+		Events.emit_signal("missed_shape")
+	pass
 
 func get_current_shape():
 	return shape_to_show
@@ -29,3 +35,6 @@ func get_random_shape():
 func _on_ShapeTimer_timeout():
 	emit_signal("spawn_shape")
 	pass
+
+func _on_VisibilityNotifier2D_screen_exited():
+	pass # Replace with function body.
