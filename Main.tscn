@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/fonts/Kenney Pixel.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/Shapes/X.tscn" type="PackedScene" id=2]
@@ -19,6 +19,9 @@ font_data = ExtResource( 1 )
 [sub_resource type="Theme" id=2]
 default_font = SubResource( 3 )
 
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 505.5, 51.5 )
+
 [node name="Main" type="Area2D"]
 script = ExtResource( 3 )
 __meta__ = {
@@ -33,14 +36,13 @@ shape = SubResource( 1 )
 autostart = true
 
 [node name="X" parent="." instance=ExtResource( 2 )]
-visible = false
 position = Vector2( 513, 488 )
-gravity_scale = 3.0
+contacts_reported = 6
+contact_monitor = true
 linear_velocity = Vector2( 0, 0 )
 linear_damp = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="X"]
-visible = false
 position = Vector2( 1, -1 )
 shape = SubResource( 4 )
 
@@ -100,6 +102,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="BoundsArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundsArea"]
+position = Vector2( 510, 176 )
+shape = SubResource( 5 )
+
 [connection signal="timeout" from="ShapeTimer" to="X" method="_on_ShapeTimer_timeout"]
 [connection signal="missed_shape" from="X" to="." method="_on_X_missed_shape"]
 [connection signal="spawn_shape" from="X" to="." method="_on_X_spawn_shape"]
+[connection signal="body_entered" from="BoundsArea" to="." method="_on_BoundsArea_body_entered"]

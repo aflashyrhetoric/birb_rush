@@ -18,6 +18,10 @@ config/icon="res://icon.png"
 
 Events="*res://Events.gd"
 
+[global]
+
+cont=false
+
 [input]
 
 hit_x={

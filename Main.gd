@@ -74,3 +74,10 @@ func _on_X_missed_shape():
 		$ShapeTimer.stop()
 		print("Game Over!")	
 	pass # Replace with function body.
+
+
+func _on_BoundsArea_body_entered(body):
+#	Events.emit_signal("missed_shape")
+	print("body entered from main")
+	_on_X_missed_shape()
+	pass # Replace with function body.
