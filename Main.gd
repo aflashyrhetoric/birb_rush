@@ -1,13 +1,10 @@
 extends Node2D
 
 # TODO
-# - Animation for "+200" points on every successful hit
-# - Animation for score counting up, instead of jumping to the new score
-# - consecutive shapes result in additional points
-# - animations
-# - add collision sound
-# - on game over, freeze all shapes, turn them gray, erase them
-# - 20/20 misses counted, then failure on the 21st miss
+# - Add a HUD
+# - Add on-screen buttons
+# - Add score milestone reward animations
+# - on game over, freeze all shapes, make them jiggle to the failure song
 # - FEATURE: as the shapes get extremely close to the edge of the boundary, they start to get "rough" around the edges? glitch effect?
 # - game phases:
 #	- slow x 4
@@ -22,6 +19,7 @@ extends Node2D
 var Shape = load("res://src/Shapes/Shape.tscn")
 
 onready var spawn_position = $ShapeSpawnPoint.global_position
+onready var initial_score_diff_position = $ScoreDiff.rect_position
 
 var rng = RandomNumberGenerator.new()
 var score = 0
@@ -34,6 +32,7 @@ var misses = 0
 var current_level = 0 # 1st level
 var level_configs = []
 var cfg
+
 
 var spawn_generation = 1
 
@@ -89,6 +88,7 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Events.connect("score_updated", self, "run_score_diff_animation")
 	Events.connect("missed_shape", self, "_on_X_missed_shape")
 	Events.connect("spawn_shape", self, "_on_X_spawn_shape")
 	rng.randomize()
@@ -106,9 +106,51 @@ func check_for_hit(shape_name):
 		else:
 			last_shape_hit.type = shape_name
 			last_shape_hit.multiplier = 1
-			
-		score += 100 * last_shape_hit.multiplier
-		$Score.text = str(score)
+		
+		var amt_to_add = 100 * last_shape_hit.multiplier
+		Events.emit_signal("score_updated", amt_to_add)
+		score += amt_to_add
+		
+func run_score_diff_animation(score_points_gained):
+	var SCORE_DIFF_ANIM_DURATION = 0.4
+	var pos = $ScoreDiff.rect_position
+	var new_pos = pos
+	new_pos.y += 10
+	$ScoreDiff.text = "+ " + str(score_points_gained)
+	$Tween.interpolate_property(
+		$ScoreDiff, 
+		"rect_position",
+		pos, 
+		new_pos, 
+		SCORE_DIFF_ANIM_DURATION, 
+		$Tween.TRANS_BACK, 
+		$Tween.EASE_OUT
+	)
+	$Tween.interpolate_property(
+		$ScoreDiff, 
+		"modulate:a",
+		1, 
+		0, 
+		SCORE_DIFF_ANIM_DURATION, 
+		$Tween.TRANS_BACK, 
+		$Tween.EASE_OUT
+	)
+	$Tween.start()
+		
+func update_score_display():
+	var SCORE_DIVISION_AMT = 20
+	var score_difference = score - score_display
+	var normalized_score_increment = score_difference / SCORE_DIVISION_AMT
+	var amount_to_add = 0
+	if score_difference < 20:
+		amount_to_add = score_difference
+	else:
+		amount_to_add = normalized_score_increment
+		
+	score_display += amount_to_add
+		
+	$Score.text = str(floor(score_display))
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -120,6 +162,9 @@ func _process(delta):
 		check_for_hit("triangle_sprite")
 	if Input.is_action_just_pressed("hit_s"):
 		check_for_hit("square_sprite")
+		
+	if score_display < score:
+		update_score_display()
 	pass 
 	
 func create_shape():
@@ -201,4 +246,10 @@ func _on_BreakTimer_timeout():
 	print("Break timer timed out")
 	$BreakTimer.stop()
 	advance_level()
+	pass # Replace with function body.
+
+
+func _on_Tween_tween_completed(object, key):
+	$ScoreDiff.text = ""
+	$ScoreDiff.rect_position = initial_score_diff_position
 	pass # Replace with function body.
