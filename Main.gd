@@ -1,6 +1,7 @@
 extends Node2D
 
 # TODO
+# - Persistent high score
 # - Add a HUD
 # - Add on-screen buttons
 # - Add score milestone reward animations
@@ -21,6 +22,7 @@ var Shape = load("res://src/Shapes/Shape.tscn")
 onready var spawn_position = $ShapeSpawnPoint.global_position
 onready var initial_score_diff_position = $ScoreDiff.rect_position
 
+var game_started = false
 var rng = RandomNumberGenerator.new()
 var score = 0
 var score_display = 0
@@ -176,8 +178,9 @@ func create_shape():
 #	Randomize the spawn point a little to get some more variance in spawn area
 	var x_spawn_offset = rng.randf_range(-40, 40)
 	var y_spawn_offset = rng.randf_range(-20, 20)
-	spawn_position.x += x_spawn_offset
-	spawn_position.y += y_spawn_offset
+	var adj_spawn_point = spawn_position
+	adj_spawn_point.x += x_spawn_offset
+	adj_spawn_point.y += y_spawn_offset
 	
 #	Do we need this?
 	shape.contact_monitor = true
@@ -230,24 +233,23 @@ func game_over():
 func _on_X_missed_shape():
 	misses += 1
 	$Misses.text = str(misses) + "/20"
-	print("missed a shape!")
+#	print("missed a shape!")
 	if(misses >= 20):
 		game_over()
 	pass # Replace with function body.
 
 
 func _on_ShapeTimer_timeout():
-	print("Tick")
+#	print("Tick")
 	Events.emit_signal("spawn_shape")
 	pass # Replace with function body.48
 
 
 func _on_BreakTimer_timeout():
-	print("Break timer timed out")
+#	print("Break timer timed out")
 	$BreakTimer.stop()
 	advance_level()
 	pass # Replace with function body.
-
 
 func _on_Tween_tween_completed(object, key):
 	$ScoreDiff.text = ""
