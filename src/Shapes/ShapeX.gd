@@ -1,8 +1,5 @@
 extends RigidBody2D
 
-signal spawn_shape
-signal missed_shape
-
 var shape_to_show = ""
 
 func _init():
@@ -31,10 +28,6 @@ func get_random_shape():
 	var _shapes = ["o", "x", "square", "triangle"]
 	var random_shape = _shapes[randi() % _shapes.size()]
 	return random_shape
-
-func _on_ShapeTimer_timeout():
-	emit_signal("spawn_shape")
-	pass
 
 #func _on_BoundsArea_body_entered(body):
 #	Events.emit_signal("missed_shape")

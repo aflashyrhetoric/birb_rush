@@ -12,5 +12,6 @@ func _ready():
 
 
 func _on_BoundsArea_body_entered(body):
+	print("SOMETHING")
 	Events.emit_signal("missed_shape")
 	pass # Replace with function body.

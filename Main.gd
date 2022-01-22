@@ -3,6 +3,8 @@ extends Node2D
 # TODO
 # - consecutive shapes result in additional points
 # - animations
+# - add collision sound
+# - on game over, freeze all shapes, turn them gray, erase them
 # - 20/20 misses counted, then failure on the 21st miss
 # - FEATURE: as the shapes get extremely close to the edge of the boundary, they start to get "rough" around the edges? glitch effect?
 # - game phases:
@@ -27,6 +29,7 @@ var total_rendered_shapes = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.connect("missed_shape", self, "_on_X_missed_shape")
+	Events.connect("spawn_shape", self, "_on_X_spawn_shape")
 	print(spawn_position.x, " ", spawn_position.y)
 	rng.randomize()
 	pass # Replace with function body.
@@ -55,12 +58,17 @@ func _process(delta):
 func _on_X_spawn_shape():
 	var x_force = rng.randf_range(-75.0, 75.0)
 	var y_force = rng.randf_range(-250.0, -300.0)
-	var new_vel = Vector2(x_force,	 y_force)
+	var new_vel = Vector2(x_force, y_force)
 	var shape = X.instance()
 	total_rendered_shapes += 1
+	
+	shape.contact_monitor = true
+	shape.contacts_reported = 1
+	
 	shape.position = spawn_position
 	shape.linear_velocity = new_vel
 	shape.add_to_group(shape.shape_to_show)
+#	print(shape.contact_monitor, shape.contacts_reported)
 	# print("shape to show: ", shape.get_current_shape())
 	$SpawnPop.play()
 	add_child(shape)
@@ -76,8 +84,7 @@ func _on_X_missed_shape():
 	pass # Replace with function body.
 
 
-func _on_BoundsArea_body_entered(body):
-#	Events.emit_signal("missed_shape")
-	print("body entered from main")
-	_on_X_missed_shape()
+func _on_ShapeTimer_timeout():
+	print("Tick")
+	Events.emit_signal("spawn_shape")
 	pass # Replace with function body.
