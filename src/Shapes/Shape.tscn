@@ -16,21 +16,25 @@ script = ExtResource( 3 )
 
 [node name="x_sprite" type="Sprite" parent="."]
 visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 0, -29 )
 texture = ExtResource( 1 )
 
 [node name="o_sprite" type="Sprite" parent="."]
 visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 0, -30 )
 texture = ExtResource( 5 )
 
 [node name="triangle_sprite" type="Sprite" parent="."]
 visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 0, -30 )
 texture = ExtResource( 2 )
 
 [node name="square_sprite" type="Sprite" parent="."]
 visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 0, -29 )
 texture = ExtResource( 4 )
 

@@ -2,6 +2,8 @@ extends Node2D
 
 # TODO
 # - Persistent high score
+# - Figure out this theme thing for fonts
+# - Make missed shapes fade out rapidly
 # - Add a HUD
 # - Add on-screen buttons
 # - Add score milestone reward animations
@@ -102,13 +104,11 @@ func check_for_hit(shape_name):
 	if children.size() > 0:
 		var current_child = children.pop_front()
 		current_child.queue_free()
-		
 		if(last_shape_hit.type == shape_name):
 			last_shape_hit.multiplier += 1
 		else:
 			last_shape_hit.type = shape_name
 			last_shape_hit.multiplier = 1
-		
 		var amt_to_add = 100 * last_shape_hit.multiplier
 		Events.emit_signal("score_updated", amt_to_add)
 		score += amt_to_add
@@ -170,8 +170,8 @@ func _process(delta):
 	pass 
 	
 func create_shape():
-	var x_force = rng.randf_range(-50.0, 50.0)
-	var y_force = rng.randf_range(-250.0, -320.0)
+	var x_force = rng.randf_range(-150.0, 150.0)
+	var y_force = rng.randf_range(-500.0, -700.0)
 	var new_vel = Vector2(x_force, y_force)
 	var shape = Shape.instance()
 	
@@ -230,14 +230,19 @@ func game_over():
 	print("Game Over!")	
 	pass
 
-func _on_X_missed_shape():
+func _on_X_missed_shape(body_that_missed):
 	misses += 1
 	$Misses.text = str(misses) + "/20"
-#	print("missed a shape!")
+	body_that_missed.queue_free()
+	var random = rng.randf_range(1, 7)
+	print(floor(random))
+	if floor(random) == 1:
+		print("MISS")
+		$MissedSound.play()
+		
 	if(misses >= 20):
 		game_over()
 	pass # Replace with function body.
-
 
 func _on_ShapeTimer_timeout():
 #	print("Tick")

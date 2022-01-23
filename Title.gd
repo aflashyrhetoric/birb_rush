@@ -2,16 +2,15 @@ extends MarginContainer
 
 var main_scene = preload("res://Main.tscn").instance()
 
-# Called when the node enters the scene tree for the first time.
+# DEBUGGING VALUE
+var skip_title = false
+
 func _ready():
-	pass # Replace with function body.
+	if skip_title:
+		_on_TextureButton_button_down()
+	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
-
-func _on_Label_gui_input(event):
+func _on_TextureButton_button_down():
+	$TitleSong.stop()
 	get_tree().change_scene("res://Main.tscn")
 	pass # Replace with function body.

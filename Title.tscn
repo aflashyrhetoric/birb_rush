@@ -1,32 +1,65 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Title.gd" type="Script" id=1]
+[ext_resource path="res://assets/controls/play_button.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/bg.png" type="Texture" id=3]
+[ext_resource path="res://assets/art/title_logo.png" type="Texture" id=4]
+[ext_resource path="res://assets/sounds/bit_quest.mp3" type="AudioStream" id=5]
 
 [node name="TitleContainer" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 40.0
-margin_top = 40.0
-margin_right = -40.0
-margin_bottom = -40.0
 mouse_filter = 2
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Background" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 940.0
-margin_bottom = 520.0
+margin_right = 1080.0
+margin_bottom = 1920.0
+alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-margin_right = 26.0
-margin_bottom = 520.0
+margin_left = 239.0
+margin_right = 841.0
+margin_bottom = 1920.0
+custom_constants/separation = 200
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
+margin_top = 431.0
+margin_right = 602.0
+margin_bottom = 758.0
+texture = ExtResource( 4 )
+
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer/VBoxContainer"]
+margin_top = 958.0
+margin_right = 602.0
+margin_bottom = 1172.0
+texture_normal = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
-margin_right = 26.0
-margin_bottom = 14.0
-mouse_filter = 0
-text = "Play"
+margin_top = 1372.0
+margin_right = 602.0
+margin_bottom = 1488.0
+text = "Shades of Spring by Kevin MacLeod
+Link: https://incompetech.filmmusic.io/song/4342-shades-of-spring
+License: https://filmmusic.io/standard-license
 
-[connection signal="gui_input" from="HBoxContainer/VBoxContainer/Label" to="." method="_on_Label_gui_input"]
+Bit Quest by Kevin MacLeod
+Link: https://incompetech.filmmusic.io/song/3438-bit-quest
+License: https://filmmusic.io/standard-license"
+
+[node name="TitleSong" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+autoplay = true
+
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/TextureButton" to="." method="_on_TextureButton_button_down"]
