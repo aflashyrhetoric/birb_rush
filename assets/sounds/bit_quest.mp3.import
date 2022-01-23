@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bit_quest.mp3-0b6aaa3da841785a477ce3809ebaf202.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/bit_quest.mp3"
+dest_files=[ "res://.import/bit_quest.mp3-0b6aaa3da841785a477ce3809ebaf202.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

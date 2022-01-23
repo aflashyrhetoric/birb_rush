@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/shades_of_spring.mp3-98f324b3cab20ace83400925cf1046b1.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/shades_of_spring.mp3"
+dest_files=[ "res://.import/shades_of_spring.mp3-98f324b3cab20ace83400925cf1046b1.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
