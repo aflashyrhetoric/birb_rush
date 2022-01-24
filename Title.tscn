@@ -92,7 +92,7 @@ alignment = 1
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
 margin_top = 400.0
 margin_right = 602.0
-margin_bottom = 727.002
+margin_bottom = 727.0
 texture = ExtResource( 4 )
 
 [node name="TextureButton" type="TextureButton" parent="HBoxContainer/VBoxContainer"]
@@ -118,6 +118,8 @@ stream = ExtResource( 5 )
 autoplay = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Load In"
+method_call_mode = 1
 "anims/Load In" = SubResource( 1 )
 anims/RESET = SubResource( 2 )
 
