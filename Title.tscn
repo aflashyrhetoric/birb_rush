@@ -1,10 +1,65 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Title.gd" type="Script" id=1]
 [ext_resource path="res://assets/controls/play_button.png" type="Texture" id=2]
 [ext_resource path="res://assets/art/bg.png" type="Texture" id=3]
 [ext_resource path="res://assets/art/title_logo.png" type="Texture" id=4]
 [ext_resource path="res://assets/sounds/bit_quest.mp3" type="AudioStream" id=5]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Load In"
+length = 1.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("HBoxContainer/VBoxContainer/TextureRect:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 1.3 ),
+"transitions": PoolRealArray( 5.27803, 0.189465, 0.329877 ),
+"update": 0,
+"values": [ Vector2( 30, 305 ), Vector2( 30, 430 ), Vector2( 30, 390 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HBoxContainer/VBoxContainer/TextureButton:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1, 0.9, 1.4 ),
+"transitions": PoolRealArray( 5.27803, 0.189, 0.329 ),
+"update": 0,
+"values": [ Vector2( 0, 835 ), Vector2( 0, 1000 ), Vector2( 0, 960 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("HBoxContainer/VBoxContainer/TextureRect:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 400 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HBoxContainer/VBoxContainer/TextureButton:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 958 ) ]
+}
 
 [node name="TitleContainer" type="MarginContainer"]
 anchor_right = 1.0
@@ -35,9 +90,9 @@ custom_constants/separation = 200
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
-margin_top = 431.0
+margin_top = 400.0
 margin_right = 602.0
-margin_bottom = 758.0
+margin_bottom = 727.002
 texture = ExtResource( 4 )
 
 [node name="TextureButton" type="TextureButton" parent="HBoxContainer/VBoxContainer"]
@@ -61,5 +116,9 @@ License: https://filmmusic.io/standard-license"
 [node name="TitleSong" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/Load In" = SubResource( 1 )
+anims/RESET = SubResource( 2 )
 
 [connection signal="button_down" from="HBoxContainer/VBoxContainer/TextureButton" to="." method="_on_TextureButton_button_down"]
