@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/miss_1.wav-8d736d8f2d4d1445e9bb89c80298b1d3.sample"
+
+[deps]
+
+source_file="res://assets/sounds/sfx/saved_in_case/miss_1.wav"
+dest_files=[ "res://.import/miss_1.wav-8d736d8f2d4d1445e9bb89c80298b1d3.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -15,7 +15,6 @@ var Shape = load("res://src/Shapes/Shape.tscn")
 onready var spawn_position = $ShapeSpawnPoint.global_position
 onready var initial_score_diff_position = $ScoreDiff.rect_position
 
-var game_started = false
 var rng = RandomNumberGenerator.new()
 var score = 0
 var score_display = 0
@@ -108,6 +107,7 @@ func check_for_hit(shape_name):
 	if children.size() > 0:
 		var current_child = children.pop_front()
 		current_child.queue_free()
+		$Hit.play()
 		if last_shape_hit.type == shape_name:
 			last_shape_hit.multiplier += 1
 		else:
@@ -119,7 +119,7 @@ func check_for_hit(shape_name):
 
 
 func run_score_diff_animation(score_points_gained):
-	var SCORE_DIFF_ANIM_DURATION = 0.4
+	var SCORE_DIFF_ANIM_DURATION = 0.5
 	var pos = $ScoreDiff.rect_position
 	var new_pos = pos
 	new_pos.y += 10
@@ -232,27 +232,26 @@ func _on_X_spawn_shape():
 func game_over():
 	get_tree().paused = true
 	$ShapeSpawnTimer.stop()
-	print("Game Over!")
+	$Buttons.visible = false
+	$Again.visible = true
 	pass
-
 
 func _on_X_missed_shape(body_that_missed):
 	misses += 1
 	$Misses.text = str(misses) + "/20"
 	body_that_missed.queue_free()
 	var random = rng.randf_range(1, 7)
-	print(floor(random))
 	if floor(random) == 1:
 		print("MISS")
+		$OhYouSuck.play()
+	else:
 		$MissedSound.play()
-
 	if misses >= 20:
 		game_over()
 	pass  # Replace with function body.
 
 
 func _on_ShapeTimer_timeout():
-#	print("Tick")
 	Events.emit_signal("spawn_shape")
 	pass  # Replace with function body.48
 
@@ -268,3 +267,29 @@ func _on_Tween_tween_completed(object, key):
 	$ScoreDiff.text = ""
 	$ScoreDiff.rect_position = initial_score_diff_position
 	pass  # Replace with function body.
+
+func kill_all_shapes():
+	var all_shapes = get_tree().get_nodes_in_group("all_shapes")
+	for shape in all_shapes:
+		shape.queue_free()
+	pass
+
+func restart_game():
+	get_tree().paused = false
+	kill_all_shapes()
+	score = 0
+	score_display = 0
+	last_shape_hit = {"type": "", "multiplier": 1}
+	misses = 0
+	current_level = 0  # 1st level
+	level_configs = []
+	$Buttons.visible = true
+	$Again.visible = false
+	$Misses.text = "0/20"
+	$ShapeSpawnTimer.start()
+	pass
+
+func _on_Again_button_down():
+	get_tree().reload_current_scene()
+	get_tree().paused = false
+	pass # Replace with function body.

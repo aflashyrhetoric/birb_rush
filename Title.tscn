@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Title.gd" type="Script" id=1]
 [ext_resource path="res://assets/controls/play_button.png" type="Texture" id=2]
 [ext_resource path="res://assets/art/bg.png" type="Texture" id=3]
 [ext_resource path="res://assets/art/title_logo.png" type="Texture" id=4]
 [ext_resource path="res://assets/sounds/bit_quest.mp3" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/sfx/hmm.wav" type="AudioStream" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Load In"
@@ -116,6 +117,9 @@ License: https://filmmusic.io/standard-license"
 [node name="TitleSong" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 autoplay = true
+
+[node name="PlaySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Load In"

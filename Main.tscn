@@ -1,12 +1,15 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/fonts/Kenney Pixel.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/Controls/Buttons.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Main.gd" type="Script" id=3]
-[ext_resource path="res://assets/sounds/pop.mp3" type="AudioStream" id=4]
+[ext_resource path="res://assets/sounds/sfx/miss.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/art/bg.png" type="Texture" id=5]
 [ext_resource path="res://assets/sounds/shades_of_spring.mp3" type="AudioStream" id=6]
 [ext_resource path="res://assets/sounds/oh_you_suck.mp3" type="AudioStream" id=7]
+[ext_resource path="res://assets/sounds/sfx/spawn.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/sounds/sfx/hit_primary.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/controls/again_button.png" type="Texture" id=10]
 
 [sub_resource type="GDScript" id=6]
 script/source = "extends Area2D
@@ -49,10 +52,12 @@ stream = ExtResource( 6 )
 autoplay = true
 
 [node name="MissedSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
+stream = ExtResource( 4 )
 pitch_scale = 1.25
 
-[node name="LevelTimer" type="Timer" parent="."]
+[node name="OhYouSuck" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+pitch_scale = 1.25
 
 [node name="ShapeSpawnTimer" type="Timer" parent="."]
 autostart = true
@@ -72,7 +77,11 @@ polygon = PoolVector2Array( -475, -357, -459, -357, -467, 302, 571, 296, 568, -3
 position = Vector2( 532, 846 )
 
 [node name="SpawnPop" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
+stream = ExtResource( 8 )
+volume_db = -15.0
+
+[node name="Hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
 
 [node name="Score Label" type="Label" parent="."]
 margin_left = 31.0
@@ -137,9 +146,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Node2D" parent="." instance=ExtResource( 2 )]
+[node name="Buttons" parent="." instance=ExtResource( 2 )]
+
+[node name="Again" type="TextureButton" parent="."]
+pause_mode = 2
+visible = false
+margin_left = 240.0
+margin_top = 959.0
+margin_right = 842.0
+margin_bottom = 1173.0
+texture_normal = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="timeout" from="ShapeSpawnTimer" to="." method="_on_ShapeTimer_timeout"]
 [connection signal="timeout" from="BreakTimer" to="." method="_on_BreakTimer_timeout"]
 [connection signal="body_entered" from="BoundArea" to="BoundArea" method="_on_BoundArea_body_entered"]
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
+[connection signal="button_down" from="Again" to="." method="_on_Again_button_down"]

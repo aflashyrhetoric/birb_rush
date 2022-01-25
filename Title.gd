@@ -1,5 +1,6 @@
 extends MarginContainer
 
+onready var transitions = $Transitions
 var main_scene = preload("res://Main.tscn").instance()
 
 # DEBUGGING VALUE
@@ -13,5 +14,6 @@ func _ready():
 
 func _on_TextureButton_button_down():
 	$TitleSong.stop()
+	$PlaySound.play()
 	get_tree().change_scene("res://Main.tscn")
 	pass # Replace with function body.
