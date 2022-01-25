@@ -65,7 +65,7 @@ autostart = true
 [node name="BreakTimer" type="Timer" parent="."]
 
 [node name="BoundArea" type="Area2D" parent="."]
-position = Vector2( 484, 282 )
+position = Vector2( 484, 530 )
 script = SubResource( 6 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="BoundArea"]
@@ -74,7 +74,7 @@ build_mode = 1
 polygon = PoolVector2Array( -475, -357, -459, -357, -467, 302, 571, 296, 568, -353, 585, -355, 584, 313, -480, 318 )
 
 [node name="ShapeSpawnPoint" type="Position2D" parent="."]
-position = Vector2( 532, 846 )
+position = Vector2( 532, 1046 )
 
 [node name="SpawnPop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
@@ -147,6 +147,7 @@ __meta__ = {
 }
 
 [node name="Buttons" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 200 )
 
 [node name="Again" type="TextureButton" parent="."]
 pause_mode = 2

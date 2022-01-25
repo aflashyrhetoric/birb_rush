@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/NFF-prompt-soft.wav-596b97f17fd73145da65cacdab69daf1.sample"
+
+[deps]
+
+source_file="res://assets/sounds/sfx/saved_in_case/NFF-prompt-soft.wav"
+dest_files=[ "res://.import/NFF-prompt-soft.wav-596b97f17fd73145da65cacdab69daf1.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

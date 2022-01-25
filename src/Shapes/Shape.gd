@@ -5,6 +5,10 @@ var shape_to_show = ""
 func _init():
 	randomize()
 	shape_to_show = get_random_shape() + "_sprite"
+	
+func set_specific_shape(shape):
+	if shape != null: 
+		shape_to_show = shape
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -1,14 +1,12 @@
 extends Node2D
 
 # TODO
+# - A plant that loses petals as shapes are missed
+# - Victory screen
 # - Persistent high score
 # - Figure out this theme thing for fonts
 # - Make missed shapes fade out rapidly
-# - Add a HUD
-# - Add on-screen buttons
 # - Add score milestone reward animations
-# - on game over, freeze all shapes, make them jiggle to the failure song
-# - FEATURE: as the shapes get extremely close to the edge of the boundary, they start to get "rough" around the edges? glitch effect?
 
 var Shape = load("res://src/Shapes/Shape.tscn")
 
@@ -34,6 +32,7 @@ func initialize_levels():
 			"shapes_per_spawn": 1,
 			"rounds": 5,
 			"delay_before_next_level": 2,
+			"only_shape": ""
 		}
 	)
 	level_configs.push_back(
@@ -42,6 +41,7 @@ func initialize_levels():
 			"shapes_per_spawn": 5,
 			"rounds": 5,
 			"delay_before_next_level": 2,
+			"only_shape": ""
 		}
 	)
 	level_configs.push_back(
@@ -50,6 +50,7 @@ func initialize_levels():
 			"shapes_per_spawn": 1,
 			"rounds": 40,
 			"delay_before_next_level": 2,
+			"only_shape": ""
 		}
 	)
 	level_configs.push_back(
@@ -58,6 +59,7 @@ func initialize_levels():
 			"shapes_per_spawn": 9,
 			"rounds": 5,
 			"delay_before_next_level": 2,
+			"only_shape": ""
 		}
 	)
 	level_configs.push_back(
@@ -66,6 +68,7 @@ func initialize_levels():
 			"shapes_per_spawn": 3,
 			"rounds": 5,
 			"delay_before_next_level": 2,
+			"only_shape": ""
 		}
 	)
 	level_configs.push_back(
@@ -74,6 +77,7 @@ func initialize_levels():
 			"shapes_per_spawn": 1,
 			"rounds": 30,
 			"delay_before_next_level": 2,
+			"only_shape": ""
 		}
 	)
 	level_configs.push_back(
@@ -172,10 +176,14 @@ func _process(delta):
 
 
 func create_shape():
+	cfg = level_configs[current_level]
 	var x_force = rng.randf_range(-150.0, 150.0)
 	var y_force = rng.randf_range(-500.0, -700.0)
 	var new_vel = Vector2(x_force, y_force)
 	var shape = Shape.instance()
+	
+	if(cfg.only_shape != null and cfg.only_shape.length() > 0):
+		shape.set_specific_shape(cfg.only_shape)
 
 #	Randomize the spawn point a little to get some more variance in spawn area
 	var x_spawn_offset = rng.randf_range(-40, 40)
@@ -199,6 +207,12 @@ func advance_level():
 #	Reset per-generation variables
 	spawn_generation = 1
 	current_level += 1
+	
+#	0 5
+	if current_level == level_configs.size():
+		game_over()
+		return
+		
 
 	cfg = level_configs[current_level]
 
@@ -212,7 +226,7 @@ func advance_level():
 func _on_X_spawn_shape():
 	var shapes_to_spawn = []
 
-	if spawn_generation == cfg.rounds:
+	if spawn_generation >= cfg.rounds:
 		$ShapeSpawnTimer.stop()
 		print("End of gen ", cfg.delay_before_next_level)
 		$BreakTimer.wait_time = cfg.delay_before_next_level
