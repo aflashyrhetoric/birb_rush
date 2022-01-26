@@ -98,10 +98,14 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+
 	Events.connect("score_updated", self, "run_score_diff_animation")
 	Events.connect("missed_shape", self, "_on_X_missed_shape")
 	Events.connect("spawn_shape", self, "_on_X_spawn_shape")
+	$AnimationPlayer.play("FadeIn")
+	yield($AnimationPlayer, "animation_finished")
 	rng.randomize()
+	
 	pass  # Replace with function body.
 
 

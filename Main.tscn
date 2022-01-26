@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/fonts/Kenney Pixel.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/Controls/Buttons.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://assets/sounds/sfx/hit_primary.wav" type="AudioStream" id=9]
 [ext_resource path="res://assets/controls/again_button.png" type="Texture" id=10]
 [ext_resource path="res://theme.tres" type="Theme" id=11]
+[ext_resource path="res://assets/art/fade_out_white.png" type="Texture" id=12]
 
 [sub_resource type="GDScript" id=6]
 script/source = "extends Area2D
@@ -37,6 +38,37 @@ font_data = ExtResource( 1 )
 
 [sub_resource type="Theme" id=2]
 default_font = SubResource( 3 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "FadeIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("FadeOutWhite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("FadeOutWhite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Main" type="Node2D" groups=["all_shapes"]]
 script = ExtResource( 3 )
@@ -198,6 +230,14 @@ text = "Pause"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/FadeIn = SubResource( 7 )
+anims/RESET = SubResource( 8 )
+
+[node name="FadeOutWhite" type="Sprite" parent="."]
+texture = ExtResource( 12 )
+centered = false
 
 [connection signal="timeout" from="ShapeSpawnTimer" to="." method="_on_ShapeTimer_timeout"]
 [connection signal="timeout" from="BreakTimer" to="." method="_on_BreakTimer_timeout"]

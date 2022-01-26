@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Title.gd" type="Script" id=1]
 [ext_resource path="res://assets/controls/play_button.png" type="Texture" id=2]
@@ -8,6 +8,50 @@
 [ext_resource path="res://assets/sounds/sfx/hmm.wav" type="AudioStream" id=6]
 [ext_resource path="res://theme.tres" type="Theme" id=7]
 [ext_resource path="res://assets/art/bg_credits.png" type="Texture" id=8]
+[ext_resource path="res://assets/art/fade_out_white.png" type="Texture" id=9]
+
+[sub_resource type="Animation" id=3]
+resource_name = "FadeOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("FadeOutWhite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TitleSong:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -10.0, -40.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "FadeOutAudioOnly"
+tracks/0/type = "value"
+tracks/0/path = NodePath("TitleSong:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -40.0 ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "Load In"
@@ -87,6 +131,42 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("FadeOutWhite:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("PlaySound:volume_db")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("TitleSong:volume_db")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -10.0 ]
+}
 
 [node name="TitleContainer" type="MarginContainer"]
 anchor_right = 1.0
@@ -152,6 +232,8 @@ underline = 2
 
 [node name="TitleSong" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+volume_db = -10.0
+autoplay = true
 
 [node name="PlaySound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
@@ -159,8 +241,19 @@ stream = ExtResource( 6 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Load In"
 method_call_mode = 1
+anims/FadeOut = SubResource( 3 )
+anims/FadeOutAudioOnly = SubResource( 4 )
 "anims/Load In" = SubResource( 1 )
 anims/RESET = SubResource( 2 )
+
+[node name="FadeOutWhite" type="Sprite" parent="."]
+visible = false
+modulate = Color( 0, 0, 0, 0 )
+texture = ExtResource( 9 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
 
 [connection signal="button_down" from="HBoxContainer/VBoxContainer/TextureButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="HBoxContainer/VBoxContainer/HBoxContainer/CreditsButton" to="." method="_on_Credits_Button_button_down"]
