@@ -1,11 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Title.gd" type="Script" id=1]
-[ext_resource path="res://assets/controls/play_button.png" type="Texture" id=2]
+[ext_resource path="res://Credits.gd" type="Script" id=1]
+[ext_resource path="res://fonts/montreal/Montreal.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/art/bg.png" type="Texture" id=3]
 [ext_resource path="res://assets/art/title_logo.png" type="Texture" id=4]
-[ext_resource path="res://assets/sounds/bit_quest.mp3" type="AudioStream" id=5]
-[ext_resource path="res://assets/sounds/sfx/hmm.wav" type="AudioStream" id=6]
 [ext_resource path="res://theme.tres" type="Theme" id=7]
 [ext_resource path="res://assets/art/bg_credits.png" type="Texture" id=8]
 
@@ -43,7 +41,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.7 ),
+"times": PoolRealArray( 0.1, 0.9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -88,7 +86,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="TitleContainer" type="MarginContainer"]
+[node name="CreditsContainer" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -98,14 +96,14 @@ __meta__ = {
 }
 
 [node name="Background" type="Sprite" parent="."]
-texture = ExtResource( 3 )
+texture = ExtResource( 8 )
 centered = false
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="StartingBG" type="Sprite" parent="."]
-texture = ExtResource( 8 )
+texture = ExtResource( 3 )
 centered = false
 __meta__ = {
 "_edit_lock_": true
@@ -117,44 +115,47 @@ margin_bottom = 2340.0
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 239.0
-margin_right = 841.0
+margin_left = 58.0
+margin_right = 1021.0
 margin_bottom = 2340.0
 custom_constants/separation = 200
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
 margin_top = 400.0
-margin_right = 602.0
+margin_right = 963.0
 margin_bottom = 727.0
 texture = ExtResource( 4 )
 stretch_mode = 4
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer/VBoxContainer"]
-margin_top = 958.0
-margin_right = 602.0
-margin_bottom = 1172.0
-texture_normal = ExtResource( 2 )
+[node name="Credits" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_top = 1163.0
+margin_right = 963.0
+margin_bottom = 1433.0
+theme = ExtResource( 7 )
+custom_fonts/font = ExtResource( 2 )
+text = "Shades of Spring by Kevin MacLeod
+Link: https://incompetech.filmmusic.io/song/4342-shades-of-spring
+License: https://filmmusic.io/standard-license
+
+Bit Quest by Kevin MacLeod
+Link: https://incompetech.filmmusic.io/song/3438-bit-quest
+License: https://filmmusic.io/standard-license"
+align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-margin_top = 1605.0
-margin_right = 602.0
-margin_bottom = 1675.0
+margin_top = 1633.0
+margin_right = 963.0
+margin_bottom = 1703.0
 alignment = 1
 
-[node name="CreditsButton" type="LinkButton" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 180.0
-margin_right = 421.0
+[node name="Return" type="LinkButton" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 397.0
+margin_right = 566.0
 margin_bottom = 70.0
 theme = ExtResource( 7 )
-text = "credits"
+text = "back"
 underline = 2
-
-[node name="TitleSong" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 5 )
-
-[node name="PlaySound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Load In"
@@ -162,5 +163,4 @@ method_call_mode = 1
 "anims/Load In" = SubResource( 1 )
 anims/RESET = SubResource( 2 )
 
-[connection signal="button_down" from="HBoxContainer/VBoxContainer/TextureButton" to="." method="_on_TextureButton_button_down"]
-[connection signal="button_down" from="HBoxContainer/VBoxContainer/HBoxContainer/CreditsButton" to="." method="_on_Credits_Button_button_down"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/HBoxContainer/Return" to="." method="_on_Return_button_down"]

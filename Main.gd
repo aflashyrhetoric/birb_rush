@@ -172,6 +172,11 @@ func _process(delta):
 
 	if score_display < score:
 		update_score_display()
+		
+	if Input.is_action_just_pressed("ui_cancel") and get_tree().paused == false:
+		print("pause")
+		pause_game()
+		return
 	pass
 
 
@@ -305,5 +310,35 @@ func restart_game():
 
 func _on_Again_button_down():
 	get_tree().reload_current_scene()
+	get_tree().paused = false
+	pass # Replace with function body.
+	
+func toggle_visibility_of_pause_gui(isVisible):
+	$Buttons.visible = !isVisible
+	$Pause.visible = !isVisible
+	$Resume.visible = isVisible
+	$QuitToMainMenu.visible = isVisible
+
+func unpause_game():
+	get_tree().paused = false
+	toggle_visibility_of_pause_gui(false)
+	false
+
+func pause_game():
+	get_tree().paused = true
+	toggle_visibility_of_pause_gui(true)
+	pass
+
+func _on_Resume_button_down():
+	unpause_game()
+	pass # Replace with function body.
+
+func _on_Pause_button_down():
+	pause_game()
+	pass # Replace with function body.
+
+
+func _on_QuitToMainMenu_button_down():
+	get_tree().change_scene("res://Title.tscn")
 	get_tree().paused = false
 	pass # Replace with function body.
